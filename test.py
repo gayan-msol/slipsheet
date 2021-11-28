@@ -1,5 +1,6 @@
+fileName = input("Sorted File:")
 newLines = []
-with open("JOB 205964 OUTPUT FILE - All Records.txt") as fIn:
+with open(fileName) as fIn:
     count = 0
     sortCodeIndex = 0
     add1Index = 0
@@ -11,7 +12,6 @@ with open("JOB 205964 OUTPUT FILE - All Records.txt") as fIn:
             add1Index = count
         count += 1
     newLines.append(f"{lines[0].strip()}{chr(9)}MediaSelect{chr(10)}")
-
     lineCount = 0
 
     for line in lines:
@@ -35,10 +35,8 @@ with open("JOB 205964 OUTPUT FILE - All Records.txt") as fIn:
                                     sortBreakLine += f'Residue: {codes[1]}' 
                     else:
                         sortBreakLine += '\t'
-                newLines.append(f'{sortBreakLine}{chr(9)}SortBreak{chr(10)}')
-                            
-            newLines.append(f"{line.strip()}{chr(9)}{chr(10)}")
-            
+                newLines.append(f'{sortBreakLine}{chr(9)}SortBreak{chr(10)}')                            
+            newLines.append(f"{line.strip()}{chr(9)}{chr(10)}")            
         lineCount += 1
     
 with open("testOut.txt",'a') as fOut:
