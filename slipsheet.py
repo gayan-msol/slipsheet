@@ -77,5 +77,5 @@ with open(fileName.replace('"', ''), "r") as fIn:
 
         lineCount += 1
 
-with open("testOut.txt", 'a') as fOut:
+with open(fileName.replace('.txt','_slipsheet.txt'), 'a') as fOut:
     fOut.writelines(newLines)
