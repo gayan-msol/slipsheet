@@ -1,6 +1,18 @@
+import os
+
 fileName = input("Sorted File:")
 newLines = []
-with open(fileName) as fIn:
+
+class SortCode:
+    def __init__(self,state,bsp,postcode,type):
+        
+        self.bsp =bsp
+        self.postcode=postcode
+        self.state=state
+        self.type =type
+
+
+with open(fileName.replace('"',''), "r") as fIn:
     count = 0
     sortCodeIndex = 0
     add1Index = 0
@@ -16,10 +28,13 @@ with open(fileName) as fIn:
 
     for line in lines:
         if(lineCount > 0):
-            previousSortCode = lines[lineCount -1].split('\t')[sortCodeIndex]            
-            sortCode = line.split('\t')[sortCodeIndex]
-            if(sortCode != previousSortCode):
-                codes = sortCode.split('_')
+            previousCode = lines[lineCount -1].split('\t')[sortCodeIndex]            
+            currentCode = line.split('\t')[sortCodeIndex]
+            sc0 = SortCode(previousCode[1],previousCode[2],previousCode[4],previousCode[5])
+            sc1 = SortCode(currentCode[1],currentCode[2],currentCode[4],currentCode[5])
+
+            if(currentCode != previousCode):
+                codes = currentCode.split('_')
                 sortBreakLine = ''
                 for x in range(count):
                     if(x == add1Index):
