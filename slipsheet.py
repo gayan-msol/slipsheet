@@ -1,14 +1,21 @@
 import os
 
-fileName = input("Sorted File:")
-newLines = []
-
 class SortCode:
     def __init__(self, state, bsp, postcode, type):
         self.bsp = bsp
         self.postcode = postcode
         self.state = state
         self.type = type
+
+class SortType:
+    printpost=1
+    linehaul=2
+    presort=3
+
+    
+fileName = input("Sorted File:")
+newLines = []
+sortType=SortType.printpost
 
 with open(fileName.replace('"', ''), "r") as fIn:
     fieldCount = 0
@@ -23,9 +30,13 @@ with open(fileName.replace('"', ''), "r") as fIn:
         match field:
             case 'Dt LH Sort Code':
                 sortCodeIndex = fieldCount
-                isLineHaul = True
+                sortType=SortType.linehaul
             case 'Dt PP Sort Code':
                 sortCodeIndex = fieldCount
+                sortType=SortType.printpost
+            case 'Dt BP Sort Code':
+                sortCodeIndex = fieldCount
+                sortType=SortType.printpost
             case 'Address Line 1':
                 add1Index = fieldCount
         fieldCount += 1
@@ -40,16 +51,16 @@ with open(fileName.replace('"', ''), "r") as fIn:
             currentCode = line.split(delimeter)[sortCodeIndex].split('_')
             if(previousCode.__len__() < 4):
                 sc0 = SortCode('xOTHER', '', '', 'INT')                
-            elif(isLineHaul):
+            elif(sortType == SortType.linehaul):
                 sc0 = SortCode(previousCode[1], previousCode[2], previousCode[4], previousCode[5])                
-            else:
+            elif(sortType == SortType.printpost):
                 sc0 = SortCode(previousCode[0], previousCode[1], previousCode[3], previousCode[4])
 
             if(currentCode.__len__() < 4):
                 sc1 = SortCode('xOTHER', '', '', 'INT')                
-            elif(isLineHaul):
+            elif(sortType == SortType.linehaul):
                 sc1 = SortCode(currentCode[1], currentCode[2], currentCode[4], currentCode[5])                
-            else:
+            elif(sortType == SortType.printpost):
                 sc1 = SortCode(currentCode[0], currentCode[1], currentCode[3], currentCode[4])    
 
             match   sc1.type:
